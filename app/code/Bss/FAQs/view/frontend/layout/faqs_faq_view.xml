@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Bss_FAQs::js/js-category.js" />
+    </head>
+    <referenceContainer name="content">
+        <block class="Bss\FAQs\Block\Search\SearchForm" name="faq.search.searchform.form" template="Bss_FAQs::FAQ/form.phtml" />
+        <block class="Bss\FAQs\Block\Faq\Faq" name="faq.faq.view" template="Bss_FAQs::FAQ/view.phtml" cacheable="false" />
+    </referenceContainer>
+    <referenceContainer name="sidebar.main">
+        <block class="Bss\FAQs\Block\Category\CategorySidebar" name="faq.category.sidebar.view" template="Bss_FAQs::Category/categorySidebar.phtml" />
+    </referenceContainer>
+</page>

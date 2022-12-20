@@ -1,0 +1,21 @@
+<?php
+/** @var Bss\FAQs\Block\Category\CategorySidebar $block */
+$collection = $block->getCategoryCollection();
+$title = $block->getData('title');
+?>
+<?php if ($collection->count()) { ?>
+    <div class="block block-faq-category">
+        <div class="block-title">
+            <strong><?php echo __('FAQ Categories'); ?></strong>
+        </div>
+        <div class="block-content">
+            <ol class="items">
+                <?php foreach ($collection as $_cat) { ?>
+                    <li><a href="<?php echo $block->getFaqCategoryFullPath($_cat->getID()) ?>"
+                           title="<?php echo $_cat->getTitle() ?>"><?php echo $_cat->getTitle() ?></a>
+                        <span class="count">(<?php echo $_cat['count']; ?>)</span></li>
+                <?php } ?>
+            </ol>
+        </div>
+    </div>
+<?php } ?>

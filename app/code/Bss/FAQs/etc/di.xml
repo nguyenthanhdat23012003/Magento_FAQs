@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--get data from collection for ui-component-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="faqs_categories_listing_data_source" xsi:type="string">Bss\FAQs\Model\Category\ResourceModel\DataExample\Collection</item>
+                <item name="faqs_categories_form_data_source" xsi:type="string">Bss\FAQs\Model\Category\ResourceModel\DataExample\Collection</item>
+                <item name="faqs_listing_data_source" xsi:type="string">Bss\FAQs\Model\FAQs\ResourceModel\DataExample\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Bss\FAQs\Model\Category\ResourceModel\DataExample\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">bss_faq_categories</argument>
+            <argument name="resourceModel" xsi:type="string">Bss\FAQs\Model\Category\ResourceModel\DataExample</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Bss\FAQs\Model\FAQs\ResourceModel\DataExample\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">bss_faqs</argument>
+            <argument name="resourceModel" xsi:type="string">Bss\FAQs\Model\FAQs\ResourceModel\DataExample</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Bss\FAQs\CategoriesImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">faqs/tmp/imgcategories</argument>
+            <argument name="basePath" xsi:type="string">faqs/imgcategories</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+            <argument name="allowedMimeTypes" xsi:type="array">
+                <item name="jpg" xsi:type="string">image/jpg</item>
+                <item name="jpeg" xsi:type="string">image/jpeg</item>
+                <item name="gif" xsi:type="string">image/gif</item>
+                <item name="png" xsi:type="string">image/png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Bss\FAQs\Controller\Adminhtml\Categories\Image\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Bss\FAQs\CategoriesImageUpload</argument>
+        </arguments>
+    </type>
+    <type name="Bss\FAQs\Model\Category\ResourceModel\DataExample">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Bss\FAQs\CategoriesImageUpload</argument>
+        </arguments>
+    </type>
+</config>

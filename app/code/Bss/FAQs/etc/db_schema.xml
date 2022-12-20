@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <!--Create table bss manage faqs categories-->
+    <table name="bss_faq_categories" resource="default" engine="innodb" comment="FAQ Categories">
+        <column xsi:type="int" name="id" unsigned="false" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="int" name="status" nullable="false" comment="Status"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Title"/>
+        <column xsi:type="varchar" name="icon" nullable="false" length="255" comment="Icon"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="FAQS_CATEGORY_SEARCH" indexType="fulltext">
+            <column name="title"/>
+        </index>
+    </table>
+    <!--Create table bss manage faqs -->
+    <table name="bss_faqs" resource="default" engine="innodb" comment="FAQs manage">
+        <column xsi:type="int" name="id" unsigned="false" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Title"/>
+        <column xsi:type="int" name="viewed" nullable="false" comment="Viewed"/>
+        <column xsi:type="int" name="liked" nullable="false" comment="Liked"/>
+        <column xsi:type="int" name="disliked" nullable="false"  comment="Disliked"/>
+        <column xsi:type="varchar" name="created_by" nullable="false" length="20" comment="Created by"/>
+        <column xsi:type="int" name="status" nullable="false" comment="status"/>
+        <column xsi:type="int" name="sort_order" nullable="false" comment="Sort order"/>
+        <column xsi:type="datetime" name="created" nullable="false" comment="Created"/>
+        <column xsi:type="datetime" name="modified" nullable="false"  comment="Modified"/>
+        <column xsi:type="int" name="category" nullable="true" default="0" comment="Category"/>
+        <column xsi:type="varchar" name="answer" nullable="false" length="255" comment="Answer"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FAQ_LNK_CATE"
+                    table="bss_faqs" column="category" referenceTable="bss_faq_categories"
+                    referenceColumn="id" onDelete="SET NULL"/>
+        <index referenceId="FAQS_SEARCH" indexType="fulltext">
+            <column name="title"/>
+        </index>
+    </table>
+</schema>

@@ -1,0 +1,55 @@
+<?php /** @var Bss\FAQs\Controller\FAQ\View $block */ ?>
+<div class="faq-category">
+    <h2 class="faqcat-title first-title"><i></i><?php echo __('Welcome to our support portal'); ?></h2>
+    <?php if ($block->getFaqCategoriesList()): ?>
+        <ul class="category-list">
+            <?php foreach ($block->getFaqCategoriesList() as $category): ?>
+                <li class="col-xs-6 col-sm-4 col-md-3 category">
+                    <div class="block">
+                        <a href="<?php echo $block->getFaqCategoryFullPath($category['id']); ?>">
+                            <img
+                                src="<?php echo !empty($category['icon']) ? $block->getFileBaseUrl($category['icon']) :
+                                    $block->getViewFileUrl('Bss_FAQs::images/faq81x81.png'); ?>"
+                                alt="<?php echo __($category['title']); ?>"
+                                title="<?php echo __($category['title']); ?> - <?php echo __('FAQs'); ?>"/>
+                        </a>
+                        <h3>
+                            <a href="<?php echo $block->getFaqCategoryFullPath($category['id']); ?>">
+                                <?php echo __($category['title']); ?>
+                            </a>
+                        </h3>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <ol class="items faqs-list">
+            <li class="item no-question">
+                <a href="#"><?php echo __('There are no FAQ Categories was found.'); ?></a>
+            </li>
+        </ol>
+    <?php endif; ?>
+    <h2 class="faqcat-title">
+        <i></i><?php echo __('Frequently Asked Questions'); ?>
+    </h2>
+    <?php if ($block->getFrequentlyAskedQuestion()): ?>
+        <ol class="items faqs-list">
+            <?php foreach ($block->getFrequentlyAskedQuestion() as $faq): ?>
+                <li class="item" id="faq-id-<?php echo $faq['id']; ?>">
+                    <a href="<?php echo $block->getFaqFullPath($faq['id']); ?>"><span
+                            class="faq-iconplus"></span><?php echo $faq['title']; ?></a>
+                    <div class="description" id="description">
+                        <?php echo $faq['answer']; ?>
+                    </div>
+                    <div class="read-more"><?php echo __('Read more'); ?></div>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    <?php else: ?>
+        <ol class="items faqs-list">
+            <li class="item no-question">
+                <a href="#"><?php echo __('There are no frequently asked questions was found.'); ?></a>
+            </li>
+        </ol>
+    <?php endif; ?>
+</div>
