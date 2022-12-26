@@ -1,0 +1,39 @@
+{
+    "bss_faq_categories": {
+        "column": {
+            "id": true,
+            "status": true,
+            "title": true,
+            "icon": true
+        },
+        "index": {
+            "BSS_FAQ_CATEGORIES_TITLE": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "bss_faqs": {
+        "column": {
+            "id": true,
+            "title": true,
+            "viewed": true,
+            "liked": true,
+            "disliked": true,
+            "created_by": true,
+            "status": true,
+            "sort_order": true,
+            "created": true,
+            "modified": true,
+            "category": true,
+            "answer": true
+        },
+        "index": {
+            "BSS_FAQS_TITLE": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "BSS_FAQS_CATEGORY_BSS_FAQ_CATEGORIES_ID": true
+        }
+    }
+}

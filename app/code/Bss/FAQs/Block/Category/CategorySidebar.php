@@ -9,22 +9,17 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\StoreManagerInterface;
+use Bss\FAQs\Model\CategoryRepository;
 
 /**
  * Class CategorySidebar
  */
 class CategorySidebar extends Template
 {
-
     /**
-     * @var \Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory
+     * @var CategoryRepository
      */
-    protected $_questionCollectionFactory;
-
-    /**
-     * @var CollectionFactory
-     */
-    protected $_categoryCollectionFactory;
+    protected   $categoryRepository;
 
     /**
      * @var StoreManagerInterface
@@ -33,21 +28,18 @@ class CategorySidebar extends Template
 
     /**
      * @param Context $context
-     * @param \Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory $questionCollectionFactory
-     * @param CollectionFactory $categoryCollectionFactory
+
      * @param StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Context                                                          $context,
-        \Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory $questionCollectionFactory,
-        CollectionFactory                                                $categoryCollectionFactory,
+        CategoryRepository                                               $categoryRepository,
         StoreManagerInterface                                            $storeManager,
         array                                                            $data = []
     ) {
         $this->storeManager = $storeManager;
-        $this->_questionCollectionFactory = $questionCollectionFactory;
-        $this->_categoryCollectionFactory = $categoryCollectionFactory;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context);
     }
 
@@ -57,15 +49,7 @@ class CategorySidebar extends Template
      */
     public function getCategoryCollection()
     {
-        $categoryCollection = $this->_categoryCollectionFactory->create()
-            ->addFieldToFilter('status', 1);
-        foreach ($categoryCollection as $cat) {
-            $questionCollection = $this->_questionCollectionFactory->create()
-                ->addFieldToFilter('category', $cat['id'])
-                ->addFieldToFilter('status', 1);
-            $cat['count'] = count($questionCollection);
-        }
-        return $categoryCollection;
+        return $this->categoryRepository->getCategoryCollection();
     }
 
     /**

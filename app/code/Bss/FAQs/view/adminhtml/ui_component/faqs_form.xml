@@ -150,7 +150,7 @@
                 </select>
             </formElements>
         </field>
-        <field name="answer" formElement="input">
+        <field name="answer" formElement="textarea">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">answer</item>
@@ -164,6 +164,14 @@
                 <label translate="true">Answer</label>
                 <dataScope>answer</dataScope>
             </settings>
+            <formElements>
+                <wysiwyg>
+                    <settings>
+                        <rows>4</rows>
+                        <wysiwyg>true</wysiwyg>
+                    </settings>
+                </wysiwyg>
+            </formElements>
         </field>
     </fieldset>
 </form>
