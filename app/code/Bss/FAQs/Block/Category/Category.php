@@ -10,20 +10,21 @@ use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\StoreManagerInterface;
-
+use Bss\FAQs\Model\CategoryRepository;
 /**
  * Class Category
  */
 class Category extends Template
 {
     /**
+     * @var CategoryRepository
+     */
+    protected   $categoryRepository;
+    /**
      * @var FaqCatCollectionFactory|null
      */
     protected $_FaqCatCollectionFactory = null;
-    /**
-     * @var FaqsCollectionFactory|null
-     */
-    protected $_FaqsCollectionFactory = null;
+
 
     /**
      * @var StoreManagerInterface
@@ -32,21 +33,20 @@ class Category extends Template
 
     /**
      * @param Context $context
-     * @param FaqsCollectionFactory $FaqsCollectionFactory
      * @param FaqCatCollectionFactory $FaqCatCollectionFactory
      * @param StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Context                 $context,
-        FaqsCollectionFactory   $FaqsCollectionFactory,
+        CategoryRepository      $categoryRepository,
         FaqCatCollectionFactory $FaqCatCollectionFactory,
         StoreManagerInterface   $storeManager,
         array                   $data = []
     ) {
+        $this->categoryRepository = $categoryRepository;
         $this->storeManager = $storeManager;
         $this->_FaqCatCollectionFactory = $FaqCatCollectionFactory;
-        $this->_FaqsCollectionFactory = $FaqsCollectionFactory;
         parent::__construct($context, $data);
     }
 
@@ -72,14 +72,7 @@ class Category extends Template
      */
     public function getFaqsList()
     {
-        $id = $this->getRequest()->getParam('id');
-        $faqCollection = $this->_FaqsCollectionFactory->create()
-            ->addFieldToFilter('status', 1)
-            ->addFieldToFilter('category', $id);
-        if (count($faqCollection) == 0) {
-            return null;
-        }
-        return $faqCollection;
+        return $this->categoryRepository->getFaqsList();
     }
 
     /**

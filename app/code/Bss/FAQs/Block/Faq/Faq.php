@@ -5,12 +5,14 @@ namespace Bss\FAQs\Block\Faq;
 
 use Bss\FAQs\Model\Category\ResourceModel\DataExample\Collection;
 use Bss\FAQs\Model\Category\ResourceModel\DataExample\CollectionFactory as ViewCollectionFactory;
+use Bss\FAQs\Model\CategoryRepository;
 use Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory as FaqsCollectionFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\StoreManagerInterface;
+use Bss\FAQs\Model\FaqsRepository;
 
 /**
  * Class Faq
@@ -18,13 +20,9 @@ use Magento\Store\Model\StoreManagerInterface;
 class Faq extends Template
 {
     /**
-     * @var ViewCollectionFactory|null
+     * @var FaqsRepository
      */
-    protected $_viewCollectionFactory = null;
-    /**
-     * @var FaqsCollectionFactory|null
-     */
-    protected $_FaqsCollectionFactory = null;
+    protected   $faqsRepository;
 
     /**
      * @var StoreManagerInterface
@@ -40,14 +38,12 @@ class Faq extends Template
      */
     public function __construct(
         Context               $context,
-        ViewCollectionFactory $viewCollectionFactory,
-        FaqsCollectionFactory $FaqsCollectionFactory,
+        FaqsRepository        $faqsRepository,
         StoreManagerInterface $storeManager,
         array                 $data = []
     ) {
         $this->storeManager = $storeManager;
-        $this->_viewCollectionFactory = $viewCollectionFactory;
-        $this->_FaqsCollectionFactory = $FaqsCollectionFactory;
+        $this->faqsRepository = $faqsRepository;
         parent::__construct($context, $data);
     }
 
@@ -57,9 +53,7 @@ class Faq extends Template
      */
     public function getFaqCategoriesList()
     {
-        $viewCollection = $this->_viewCollectionFactory->create()
-            ->addFieldToFilter('status', 1);
-        return $viewCollection;
+        return $this->faqsRepository->getFaqCategoriesList();
     }
 
     /**
@@ -93,11 +87,6 @@ class Faq extends Template
      */
     public function getFrequentlyAskedQuestion()
     {
-        $faqCollection = $this->_FaqsCollectionFactory->create()
-            ->addFieldToFilter('status', 1);
-        if (count($faqCollection) == 0) {
-            return null;
-        }
-        return $faqCollection;
+        return $this->faqsRepository->getFrequentlyAskedQuestion();
     }
 }
