@@ -5,23 +5,28 @@ namespace Bss\FAQs\Block\Search;
 
 use Bss\FAQs\Model\Category\ResourceModel\DataExample\Collection;
 use Bss\FAQs\Model\Category\ResourceModel\DataExample\CollectionFactory as ViewCollectionFactory;
-use Bss\FAQs\Model\CategoryRepository;
 use Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory as FaqsCollectionFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\StoreManagerInterface;
-use Bss\FAQs\Model\SearchRepository;
+
 /**
  * Class SearchForm
  */
 class Search extends Template
 {
+
     /**
-     * @var SearchRepository
+     * @var ViewCollectionFactory
      */
-    protected   $searchRepository;
+    protected $_viewCollectionFactory;
+
+    /**
+     * @var FaqsCollectionFactory
+     */
+    protected $_faqsCollectionFactory;
 
     /**
      * @var StoreManagerInterface
@@ -37,12 +42,14 @@ class Search extends Template
      */
     public function __construct(
         Context               $context,
-        SearchRepository      $searchRepository,
+        ViewCollectionFactory $viewCollectionFactory,
+        FaqsCollectionFactory $faqsCollectionFactory,
         StoreManagerInterface $storeManager,
         array                 $data = [],
     ) {
         $this->storeManager = $storeManager;
-        $this->searchRepository = $searchRepository;
+        $this->_viewCollectionFactory = $viewCollectionFactory;
+        $this->_faqsCollectionFactory = $faqsCollectionFactory;
         parent::__construct($context, $data);
     }
 
@@ -77,7 +84,10 @@ class Search extends Template
      */
     public function getFaqCategoriesList()
     {
-        return $this->searchRepository->getFaqCategoriesList();
+        $search = $this->getTextSearch();
+        return $this->_viewCollectionFactory->create()
+            ->addFieldToFilter('status', 1)
+            ->addFieldToFilter('title', ['like' => '%' . $search . '%']);
     }
 
     /**
@@ -97,6 +107,13 @@ class Search extends Template
      */
     public function getFaqsList()
     {
-        return $this->searchRepository->getFaqsList();
+        $search = $this->getTextSearch();
+        $faqCollection = $this->_faqsCollectionFactory->create()
+            ->addFieldToFilter('status', 1)
+            ->addFieldToFilter(array('title','answer'), [['like' => '%' . $search . '%'],['like' => '%' . $search . '%']]);
+        if (count($faqCollection) == 0) {
+            return null;
+        }
+        return $faqCollection;
     }
 }

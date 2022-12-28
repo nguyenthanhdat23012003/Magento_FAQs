@@ -10,8 +10,7 @@ namespace Bss\FAQs\Model;
 
 use Bss\FAQs\Model\Category\ResourceModel\DataExample\Collection;
 use Bss\FAQs\Model\Category\ResourceModel\DataExample\CollectionFactory;
-use Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory as FaqsCollectionFactory;
-use Magento\Framework\View\Element\Template;
+
 
 /**
  * Centralize common data access functionality for the Adobe Stock category.
@@ -20,6 +19,7 @@ use Magento\Framework\View\Element\Template;
  */
 class CategoryRepository
 {
+
     /**
      * @var \Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory
      */
@@ -30,25 +30,19 @@ class CategoryRepository
      */
     protected $_categoryCollectionFactory;
 
-    /**
-     * @var FaqsCollectionFactory|null
-     */
-    protected $_FaqsCollectionFactory = null;
 
     /**
      * CategoryRepository constructor.
-     * @param FaqsCollectionFactory $FaqsCollectionFactory
+     *
      * @param FAQs\ResourceModel\DataExample\CollectionFactory $questionCollectionFactory
      * @param CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
         \Bss\FAQs\Model\FAQs\ResourceModel\DataExample\CollectionFactory $questionCollectionFactory,
         CollectionFactory                                                $categoryCollectionFactory,
-        FaqsCollectionFactory                                            $FaqsCollectionFactory
     ) {
         $this->_questionCollectionFactory = $questionCollectionFactory;
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
-        $this->_FaqsCollectionFactory = $FaqsCollectionFactory;
     }
 
     public function getCategoryCollection()
@@ -62,17 +56,5 @@ class CategoryRepository
             $cat['count'] = count($questionCollection);
         }
         return $categoryCollection;
-    }
-
-    public function getFaqsList()
-    {
-        $id = $this->getRequest()->getParam('id');
-        $faqCollection = $this->_FaqsCollectionFactory->create()
-            ->addFieldToFilter('status', 1)
-            ->addFieldToFilter('category', $id);
-        if (count($faqCollection) == 0) {
-            return null;
-        }
-        return $faqCollection;
     }
 }

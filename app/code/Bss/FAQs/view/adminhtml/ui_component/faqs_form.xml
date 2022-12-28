@@ -150,7 +150,7 @@
                 </select>
             </formElements>
         </field>
-        <field name="answer" formElement="textarea">
+        <field name="answer" formElement="wysiwyg">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">answer</item>
